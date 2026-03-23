@@ -3,7 +3,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 # Load dataset
-movies = pd.read_csv('small_movies.csv')
+movies = pd.read_csv('final_movies.csv')
 
 # Select important columns
 movies = movies[['title', 'overview', 'genres']]
