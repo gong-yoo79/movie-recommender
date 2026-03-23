@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Movie Recommender</title>
+</head>
+<body>
+
+<h2>🎬 Movie Recommender</h2>
+
+<form id="movieForm">
+  <input type="text" id="movie" placeholder="Enter movie name" required />
+  <button type="submit">Add Movie</button>
+</form>
+
+<script>
+document.getElementById("movieForm").onsubmit = async (e) => {
+  e.preventDefault();
+
+  await fetch("/add-movie", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      movie: document.getElementById("movie").value
+    })
+  });
+
+  alert("Movie Added!");
+};
+</script>
+
+</body>
+</html>
