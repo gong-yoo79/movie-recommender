@@ -1,31 +1,45 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Movie Recommender</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
+
 <body>
 
-<h2>Movie Recommender</h2>
+<header>
+    ?? MovieFlix
+</header>
 
-<input id="movie" placeholder="Enter movie">
-<button onclick="getRec()">Recommend</button>
+<div class="container">
+    <h2>Find Movies Like Your Favorite</h2>
 
-<div id="result"></div>
+    <input id="movie" placeholder="Enter movie name">
+    <button onclick="getRec()">Search</button>
 
-<a href="/logout">Logout</a>
+    <div class="movies" id="result"></div>
+
+    <br>
+    <a href="/logout">Logout</a>
+</div>
 
 <script>
 function getRec(){
-  fetch('/add-movie',{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({movie:document.getElementById('movie').value})
-  })
-  .then(res=>res.json())
-  .then(data=>{
-    document.getElementById('result').innerHTML =
-      data.recommendations.join('<br>')
-  })
+    fetch('/add-movie',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({
+            movie:document.getElementById('movie').value
+        })
+    })
+    .then(res=>res.json())
+    .then(data=>{
+        let html = "";
+        data.recommendations.forEach(m => {
+            html += `<div class="card">${m}</div>`;
+        });
+        document.getElementById('result').innerHTML = html;
+    });
 }
 </script>
 
