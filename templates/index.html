@@ -1,39 +1,30 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Movie Recommender</title>
-  <link rel="stylesheet" href="/static/style.css">
-</head>
 <body>
 
-<div class="container">
-  <h1>🎬 Movie Recommender</h1>
+<h2>Movie Recommender</h2>
 
-  <form id="movieForm">
-    <input type="text" id="movie" placeholder="Enter movie (Avengers, Batman...)" required />
-    <button type="submit">Recommend</button>
-  </form>
+<input id="movie" placeholder="Enter movie">
+<button onclick="getRec()">Recommend</button>
 
-  <h3 id="result"></h3>
-</div>
+<div id="result"></div>
+
+<a href="/logout">Logout</a>
 
 <script>
-document.getElementById("movieForm").onsubmit = async (e) => {
-  e.preventDefault();
-
-  const res = await fetch("/add-movie", {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({
-      movie: document.getElementById("movie").value
-    })
-  });
-
-  const data = await res.json();
-
-  document.getElementById("result").innerHTML =
-    "Recommendations:<br>" + data.recommendations.join("<br>");
-};
+function getRec(){
+  fetch('/add-movie',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({movie:document.getElementById('movie').value})
+  })
+  .then(res=>res.json())
+  .then(data=>{
+    document.getElementById('result').innerHTML =
+      data.recommendations.join('<br>')
+  })
+}
 </script>
+
 </body>
 </html>
